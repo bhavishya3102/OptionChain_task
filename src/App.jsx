@@ -6,6 +6,11 @@ const App = () => {
   const [date, setdate] = useState([]);
   const [selectval, setselectval] = useState('');
   const [indexValue, setIndexValue] = useState(1000);
+  const [moddata, setmoddata] = useState(() => {
+
+    const savedData = localStorage.getItem('moddata');
+    return savedData ? JSON.parse(savedData) : {};
+  });
 
   const filterdata = selectval
     ? data.filter((item) => item.expiryDate === selectval)
@@ -25,13 +30,12 @@ const App = () => {
     try {
       const resp = await fetch(api);
       const data1 = await resp.json();
-  const newindexval = indexValue + parseFloat(Math.random().toFixed(2));
+      const newindexval = indexValue + parseFloat(Math.random().toFixed(2));
       setdata(data1.records.data);
       setdate(data1.records.expiryDates);
       setIndexValue(newindexval);
     } catch (error) {
       console.log(error);
-
     }
   };
 
@@ -47,14 +51,26 @@ const App = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  function handlechange(event) {
-    setselectval(event.target.value);
-  }
+  useEffect(() => {
+    localStorage.setItem('moddata', JSON.stringify(moddata));
+  }, [moddata]);
+
+  const handlechange = (e) => {
+    setselectval(e.target.value);
+  };
+
+  const inputhandler = (index, value) => {
+    setmoddata((prevState) => ({
+      ...prevState,
+      [index]: value, 
+    }));
+    console.log(moddata)
+  };
 
   return (
     <div>
       <select id="id1" value={selectval} onChange={handlechange}>
-        <option value="">--Show All--</option>
+        <option value=''>--Show All--</option>
         {date &&
           date.map((item, index) => (
             <option key={index} value={item}>
@@ -64,18 +80,14 @@ const App = () => {
       </select>
 
       <div>
-        Underlying Index: NIFTY <span id='bold'>{indexValue.toFixed(2)}</span> As on {current_date} {current_time}
+        Underlying Index: NIFTY <span id="bold">{indexValue.toFixed(2)}</span> As on {current_date} {current_time}
       </div>
 
       <table className="table">
         <thead>
           <tr>
-            <th colSpan="10" className="calls-header">
-              CALLS
-            </th>
-            <th colSpan="11" className="puts-header">
-              PUTS
-            </th>
+            <th colSpan="10" className="calls-header">CALLS</th>
+            <th colSpan="11" className="puts-header">PUTS</th>
           </tr>
           <tr>
             <th>OI</th>
@@ -105,27 +117,32 @@ const App = () => {
           {sortedData &&
             sortedData.map((item, index) => (
               <tr key={index}>
-                <td>{item.CE ? item?.CE?.openInterest : '-'}</td>
-                <td>{item.CE ? item?.CE?.changeinOpenInterest : '-'}</td>
-                <td>{item.CE ? item?.CE?.totalTradedVolume : '-'}</td>
-                <td>{item.CE ? item?.CE?.impliedVolatility : '-'}</td>
-                <td>{item.CE ? item?.CE?.lastPrice : '-'}</td>
-                <td>{item.CE ? item?.CE?.change.toFixed(2) : '-'}</td>
-                <td>{item.CE ? item?.CE?.bidQty : '-'}</td>
-                <td>{item.CE ? item?.CE?.bidprice : '-'}</td>
-                <td>{item.CE ? item?.CE?.askQty : '-'}</td>
-                <td>{item.CE ? item?.CE?.askPrice : '-'}</td>
-                <td>{item.CE ? item?.CE?.strikePrice : '-'}</td>
-                <td>{item.CE ? item?.PE?.bidQty : '-'}</td>
-                <td>{item.CE ? item?.PE?.bidprice : '-'}</td>
-                <td>{item.CE ? item?.PE?.askPrice : '-'}</td>
-                <td>{item.CE ? item?.PE?.askQty : '-'}</td>
-                <td>{item.CE ? item?.PE?.change.toFixed(2) : '-'}</td>
-                <td>{item.CE ? item?.PE?.lastPrice : '-'}</td>
-                <td>{item.CE ? item?.PE?.impliedVolatility : '-'}</td>
-                <td>{item.CE ? item?.PE?.totalTradedVolume : '-'}</td>
-                <td>{item.CE ? item?.PE?.changeinOpenInterest : '-'}</td>
-                <td>{item.CE ? item?.PE?.openInterest : '-'}</td>
+                <td>{item?.CE?.openInterest}</td>
+                <td>{item?.CE?.changeinOpenInterest}</td>
+                <td>{item?.CE?.totalTradedVolume}</td>
+                <td>{item?.CE?.impliedVolatility}</td>
+                <td>
+                  <input type='number'
+                    value={moddata[index] || item?.CE?.lastPrice || ''}
+                    onChange={(e) => inputhandler(index, e.target.value)}
+                  />
+                </td>
+                <td>{item?.CE?.change.toFixed(2)}</td>
+                <td>{item?.CE?.bidQty}</td>
+                <td>{item?.CE?.bidprice}</td>
+                <td>{item?.CE?.askQty}</td>
+                <td>{item?.CE?.askPrice}</td>
+                <td>{item?.strikePrice}</td>
+                <td>{item?.PE?.bidQty}</td>
+                <td>{item?.PE?.bidprice}</td>
+                <td>{item?.PE?.askPrice}</td>
+                <td>{item?.PE?.askQty}</td>
+                <td>{item?.PE?.change.toFixed(2)}</td>
+                <td>{item?.PE?.lastPrice}</td>
+                <td>{item?.PE?.impliedVolatility}</td>
+                <td>{item?.PE?.totalTradedVolume}</td>
+                <td>{item?.PE?.changeinOpenInterest}</td>
+                <td>{item?.PE?.openInterest}</td>
               </tr>
             ))}
         </tbody>
