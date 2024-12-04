@@ -51,6 +51,8 @@ const App = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  
+
   useEffect(() => {
     localStorage.setItem('moddata', JSON.stringify(moddata));
   }, [moddata]);
@@ -123,8 +125,8 @@ const App = () => {
                 <td>{item?.CE?.impliedVolatility}</td>
                 <td>
                   <input type='number'
-                    value={moddata[index] || item?.CE?.lastPrice || ''}
-                    onChange={(e) => inputhandler(index, e.target.value)}
+                    value={moddata[item.CE?(item.CE.identifier):(item.PE?item.PE.identifier:"")] || item?.CE?.lastPrice || ''}
+                    onChange={(e) => inputhandler(item.CE?(item.CE.identifier):(item.PE?item.PE.identifier:""), e.target.value)}
                   />
                 </td>
                 <td>{item?.CE?.change.toFixed(2)}</td>
