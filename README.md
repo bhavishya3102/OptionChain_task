@@ -1,8 +1,35 @@
-# React + Vite
+Option Chain Table 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A brief description of the project and its purpose.
 
-Currently, two official plugins are available:
+Installation
+Follow these steps to set up the project locally:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Clone the repository:
+
+code
+git clone <repository_url>
+Navigate to the project directory:
+
+code
+cd <project_name>
+Install the dependencies:
+
+code
+npm install
+Development Server
+Start the development server:
+
+code
+npm run dev
+Open your browser and navigate to:
+
+
+Copy code
+http://localhost:5173
+The application will be running on port 5173.
+
+
+Tech Stack
+Frontend: React, Vite, etc.
+Styling: CSS.
