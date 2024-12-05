@@ -125,7 +125,11 @@ const App = () => {
                 <td>{item?.CE?.impliedVolatility}</td>
                 <td>
                   <input type='number'
-                    value={moddata[item.CE?(item.CE.identifier):(item.PE?item.PE.identifier:"")] || item?.CE?.lastPrice || ''}
+                     value={
+    moddata[item.CE ? item.CE.identifier : item.PE ? item.PE.identifier : ""] ??
+    (item.CE ? item?.CE?.lastPrice : "") ??
+    ''
+  }
                     onChange={(e) => inputhandler(item.CE?(item.CE.identifier):(item.PE?item.PE.identifier:""), e.target.value)}
                   />
                 </td>
