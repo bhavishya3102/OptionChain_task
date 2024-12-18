@@ -72,7 +72,7 @@ const App = () => {
   return (
     <div>
       <select id="id1" value={selectval} onChange={handlechange}>
-        <option value=''>--Show All--</option>
+        <option value=''>--Show All Dates--</option>
         {date &&
           date.map((item, index) => (
             <option key={index} value={item}>
