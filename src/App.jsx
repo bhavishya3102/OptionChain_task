@@ -1,36 +1,3 @@
-// key points-
-// Purpose: Used to return the right-hand operand only if the left-hand operand is null or undefined.
-// Does NOT treat other falsy values (like 0, false, NaN, "") as "false".
-// Example:
-// javascript
-// Copy code
-// const value1 = null ?? "default"; // "default"
-// const value2 = undefined ?? "default"; // "default"
-// const value3 = 0 ?? "default"; // 0
-// const value4 = false ?? "default"; // false
-// const value5 = "" ?? "default"; // ""
-
-
-
-// || (Logical OR Operator)
-// Purpose: Returns the right-hand operand if the left-hand operand is a falsy value.
-// Considers the following values as falsy:
-// false
-// 0
-// NaN
-// "" (empty string)
-// null
-// undefined
-// Example:
-// javascript
-// Copy code
-// const value1 = null || "default"; // "default"
-// const value2 = undefined || "default"; // "default"
-// const value3 = 0 || "default"; // "default"
-// const value4 = false || "default"; // "default"
-// const value5 = "" || "default"; // "default"
-
-
 import React, { useEffect, useState } from 'react';
 import './App.css'; 
 
@@ -105,7 +72,7 @@ const App = () => {
   return (
     <div>
       <select id="id1" value={selectval} onChange={handlechange}>
-        <option value=''>--Show All Dates--</option>
+        <option value=''>--Show All--</option>
         {date &&
           date.map((item, index) => (
             <option key={index} value={item}>
@@ -186,9 +153,6 @@ const App = () => {
             ))}
         </tbody>
       </table>
-
-
-      
     </div>
   );
 };
